@@ -93,6 +93,13 @@ public class dbServices{
              connPrimary.Close(); //here is close the connection
              return allTables; // if success return allTables
     }
+
+
+
+    
+
+
+
     public List<Dictionary<string, object>[]> ExecuteSQLName(string query, MySqlParameter[] parameters)
 {
     MySqlTransaction transaction = null;

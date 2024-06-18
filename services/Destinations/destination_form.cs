@@ -13,7 +13,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             try
             {
                
-                    var sq=@"insert into detailsdb.destination_form(FULLNAME,TOURDESCRIPTION,DEPARTUREDATE,NUMBEROFDAYS,EMAIL,CONTACTNO,BUTTON) values(@FULLNAME,@TOURDESCRIPTION,@DEPARTUREDATE,@NUMBEROFDAYS,@EMAIL,@CONTACTNO,@BUTTON)";
+                    var sq=@"insert into detailsdb.enquiryForm(FULLNAME,TOURDESCRIPTION,DEPARTUREDATE,NUMBEROFDAYS,EMAIL,CONTACTNO) values(@FULLNAME,@TOURDESCRIPTION,@DEPARTUREDATE,@NUMBEROFDAYS,@EMAIL,@CONTACTNO)";
                      MySqlParameter[] insertParams = new MySqlParameter[]
                     {
                         new MySqlParameter("@FULLNAME",rData.addInfo["FULLNAME"]),
@@ -22,7 +22,6 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                         new MySqlParameter("@NUMBEROFDAYS",rData.addInfo["NUMBEROFDAYS"]),
                         new MySqlParameter("@EMAIL",rData.addInfo["EMAIL"]),
                         new MySqlParameter("@CONTACTNO",rData.addInfo["CONTACTNO"]),
-                        new MySqlParameter("@BUTTON",rData.addInfo["BUTTON"]),
                     };
                     var insertResult = ds.executeSQL(sq, insertParams);
 

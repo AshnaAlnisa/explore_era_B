@@ -7,68 +7,61 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
     public class register
     {
         dbServices ds = new dbServices();
-        public async Task<responseData> Register(requestData rData)
+        public async Task<responseData> Register(String details)
         {
             responseData resData = new responseData();
-            try
+             try
             {
-                var query = @"SELECT * FROM detailsdb.details where EMAILID=@EMAILID";
-                MySqlParameter[] myParam = new MySqlParameter[]
+                var query = @"SELECT id, name, country, emailId, tourDescriptions, travelDates, durationOfTheStay, noOfPerson, contactNo FROM detailsdb.details";
+                // Add WHERE clause if filtering by email
+                // query += " WHERE email = @Email";
+
+                // MySqlParameter[] myParam = new MySqlParameter[] {
+                //     new MySqlParameter("@Email", email)
+                // };
+
+                var dbData = ds.executeSQL(query, null); // pass myParam if filtering by email
+
+                List<object> usersList = new List<object>();
+
+                foreach (var rowSet in dbData)
                 {
-                new MySqlParameter("@NAME",rData.addInfo["NAME"]),
-                new MySqlParameter("@COUNTRY",rData.addInfo["COUNTRY"]),
-                new MySqlParameter("@EMAILID",rData.addInfo["EMAILID"]),
-                new MySqlParameter("@TOURDESCRIPTIONS",rData.addInfo["TOURDESCRIPTIONS"]),
-                new MySqlParameter("@TRAVELDATES",rData.addInfo["TRAVELDATES"]),
-                new MySqlParameter("@DURATIONOFTHESTAY",rData.addInfo["DURATIONOFTHESTAY"]),
-                new MySqlParameter("@NOOFPERSON",rData.addInfo["NOOFPERSON"]),
-                new MySqlParameter("@CONTACTNO",rData.addInfo["CONTACTNO"]),
-            
-                };
-                var dbData = ds.executeSQL(query, myParam);
-                if (dbData[0].Count() > 0)
-                {
-                    resData.rData["rMessage"] = "Duplicate Credentials";
-                }
-                else
-                {
-                    var sq=@"insert into detailsdb.details(NAME,COUNTRY,EMAILID,TOURDESCRIPTIONS,TRAVELDATES,DURATIONOFTHESTAY,NOOFPERSON,CONTACTNO) values(@NAME,@COUNTRY,@EMAILID,@TOURDESCRIPTIONS,@TRAVELDATES,@DURATIONOFTHESTAY,@NOOFPERSON,@CONTACTNO)";
-                     MySqlParameter[] insertParams = new MySqlParameter[]
+                    foreach (var row in rowSet)
                     {
-                        new MySqlParameter("@NAME",rData.addInfo["NAME"]),
-                        new MySqlParameter("@COUNTRY",rData.addInfo["COUNTRY"]),
-                        new MySqlParameter("@EMAILID",rData.addInfo["EMAILID"]),
-                        new MySqlParameter("@TOURDESCRIPTIONS",rData.addInfo["TOURDESCRIPTIONS"]),
-                        new MySqlParameter("@TRAVELDATES",rData.addInfo["TRAVELDATES"]),
-                        new MySqlParameter("@DURATIONOFTHESTAY",rData.addInfo["DURATIONOFTHESTAY"]),
-                        new MySqlParameter("@NOOFPERSON",rData.addInfo["NOOFPERSON"]),
-                        new MySqlParameter("@CONTACTNO",rData.addInfo["CONTACTNO"]),
-                    };
-                    var insertResult = ds.executeSQL(sq, insertParams);
+                        List<string> rowData = new List<string>();
 
-                    resData.rData["rMessage"] = "Successful";
-                    
+                        foreach (var column in row)
+                        {
+                            rowData.Add(column.ToString());
+                        }
+
+                        // Construct user object
+                        var user = new
+                        {
+                            id = rowData[0],
+                            name = rowData[1],
+                            country = rowData[2],
+                            emailId = rowData[3],
+                            tourDescriptions = rowData[4],
+                            travelDates = rowData[5],
+                            durationOfTheStay = rowData[6],
+                            noOfPerson = rowData[7],
+                            contactNo = rowData[8]
+                        };
+
+                        usersList.Add(user);
+                    }
                 }
 
+                resData.rData["users"] = usersList;
+                resData.rData["rMessage"] = "Successful";
             }
             catch (Exception ex)
             {
-
-                throw;
+                resData.rData["rMessage"] = "Exception occurred: " + ex.Message;
             }
+
             return resData;
-        }
-
-        private string GetStringFromAddInfo(requestData rData, string key)
-        {
-            if (rData.addInfo.ContainsKey(key))
-            {
-                return rData.addInfo[key].ToString();
-            }
-            else
-            {
-                return "N/A";
-            }
         }
     }
 }

@@ -72,24 +72,39 @@ app.UseEndpoints(e=>
                          await http.Response.WriteAsJsonAsync(await login.Login(rData));
 
          });
-         e.MapPost("register",
+         e.MapPost("plan_your_trip",
          [AllowAnonymous] async (HttpContext http) =>
          {
              var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
              requestData rData = JsonSerializer.Deserialize<requestData>(body);
               if (rData.eventID == "1002") // update
-                         await http.Response.WriteAsJsonAsync(await register.Register(rData));
+                         await http.Response.WriteAsJsonAsync(await plan_your_trip.Plan_your_trip(rData));
 
          });
-         e.MapPost("enquiryForm",
-         [AllowAnonymous] async (HttpContext http) =>
-         {
-             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-             requestData rData = JsonSerializer.Deserialize<requestData>(body);
-              if (rData.eventID == "1002") // update
-                         await http.Response.WriteAsJsonAsync(await enquiryForm.EnquiryForm(rData));
+        e.MapPost("register",
+            [AllowAnonymous] async (HttpContext http) =>
+            {
+                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                requestData rData = JsonSerializer.Deserialize<requestData>(body);
 
-         });
+                if (rData.eventID == "1002") // getUserByEmail
+                {
+                    var result = await register.Register(body);
+                    await http.Response.WriteAsJsonAsync(result);
+                }
+            });
+        e.MapPost("enquiryForm",
+            [AllowAnonymous] async (HttpContext http) =>
+            {
+                var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+                requestData rData = JsonSerializer.Deserialize<requestData>(body);
+
+                if (rData.eventID == "1002") // getUserByEmail
+                {
+                    var result = await enquiryForm.EnquiryForm(body);
+                    await http.Response.WriteAsJsonAsync(result);
+                }
+            });
          e.MapPost("signup",
          [AllowAnonymous] async (HttpContext http) =>
          {
@@ -171,15 +186,7 @@ app.UseEndpoints(e=>
                          await http.Response.WriteAsJsonAsync(await destination_form.Destination_form(rData));
 
          });
-         e.MapPost("plan_your_trip",
-         [AllowAnonymous] async (HttpContext http) =>
-         {
-             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-             requestData rData = JsonSerializer.Deserialize<requestData>(body);
-              if (rData.eventID == "1002") // update
-                         await http.Response.WriteAsJsonAsync(await plan_your_trip.Plan_your_trip(rData));
-
-         });
+         
 
 
 
