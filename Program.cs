@@ -13,6 +13,8 @@ ConfigureServices(s=>
     s.AddSingleton<login>();
     s.AddSingleton<register>();
      s.AddSingleton<enquiryForm>();
+     s.AddSingleton<destination_form>();
+     s.AddSingleton<enquiryFormDeleteDetails>();
      s.AddSingleton<signup>();
      s.AddSingleton<myLogin>();
      s.AddSingleton<destination1>();
@@ -21,8 +23,8 @@ ConfigureServices(s=>
      s.AddSingleton<heading>();
      s.AddSingleton<destination_card>();
      s.AddSingleton<destination_details>();
-     s.AddSingleton<destination_form>();
      s.AddSingleton<plan_your_trip>();
+     s.AddSingleton<plan_your_trip_delete_details>();
 
 s.AddAuthorization();
 s.AddControllers();
@@ -49,6 +51,8 @@ app.UseEndpoints(e=>
            var login=  e.ServiceProvider.GetRequiredService<login>();
            var register=  e.ServiceProvider.GetRequiredService<register>();
            var enquiryForm=  e.ServiceProvider.GetRequiredService<enquiryForm>();
+           var destination_form=  e.ServiceProvider.GetRequiredService<destination_form>();
+           var enquiryFormDeleteDetails=  e.ServiceProvider.GetRequiredService<enquiryFormDeleteDetails>();
            var signup=  e.ServiceProvider.GetRequiredService<signup>();
            var myLogin=  e.ServiceProvider.GetRequiredService<myLogin>();
            var destination1=  e.ServiceProvider.GetRequiredService<destination1>();
@@ -57,8 +61,8 @@ app.UseEndpoints(e=>
            var heading=  e.ServiceProvider.GetRequiredService<heading>();
            var destination_card=  e.ServiceProvider.GetRequiredService<destination_card>();
            var destination_details=  e.ServiceProvider.GetRequiredService<destination_details>();
-           var destination_form=  e.ServiceProvider.GetRequiredService<destination_form>();
            var plan_your_trip=  e.ServiceProvider.GetRequiredService<plan_your_trip>();
+           var plan_your_trip_delete_details=  e.ServiceProvider.GetRequiredService<plan_your_trip_delete_details>();
            
            
 
@@ -79,6 +83,15 @@ app.UseEndpoints(e=>
              requestData rData = JsonSerializer.Deserialize<requestData>(body);
               if (rData.eventID == "1002") // update
                          await http.Response.WriteAsJsonAsync(await plan_your_trip.Plan_your_trip(rData));
+
+         });
+         e.MapPost("plan_your_trip_delete_details",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await plan_your_trip_delete_details.Plan_your_trip_delete_details(rData));
 
          });
         e.MapPost("register",
@@ -105,6 +118,15 @@ app.UseEndpoints(e=>
                     await http.Response.WriteAsJsonAsync(result);
                 }
             });
+         e.MapPost("enquiryFormDeleteDetails",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // delete
+                         await http.Response.WriteAsJsonAsync(await enquiryFormDeleteDetails.EnquiryFormDeleteDetails(rData));
+
+         });
          e.MapPost("signup",
          [AllowAnonymous] async (HttpContext http) =>
          {

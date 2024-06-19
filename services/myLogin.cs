@@ -40,17 +40,5 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             }
             return resData;
         }
-
-        private string GetStringFromAddInfo(requestData rData, string key)
-        {
-            if (rData.addInfo.ContainsKey(key))
-            {
-                return rData.addInfo[key].ToString();
-            }
-            else
-            {
-                return "N/A";
-            }
-        }
     }
 }

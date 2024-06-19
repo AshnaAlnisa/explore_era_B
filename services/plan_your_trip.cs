@@ -12,7 +12,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             responseData resData = new responseData();
             try
             {
-                var query = @"SELECT * FROM detailsdb.plan_your_trip where EMAILID=@EMAILID";
+                var query = @"SELECT * FROM detailsdb.details where EMAILID=@EMAILID";
                 MySqlParameter[] myParam = new MySqlParameter[]
                 {
                 new MySqlParameter("@NAME",rData.addInfo["NAME"]),

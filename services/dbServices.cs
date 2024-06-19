@@ -46,7 +46,45 @@ public class dbServices{
     }
 
 
-    
+    // for updation query 
+
+
+    public int ExecuteUpdateSQL(string sql, MySqlParameter[] parameters)
+    {
+        MySqlTransaction transaction = null;
+        int rowsAffected = 0;
+
+        try
+        {
+            if (connPrimary == null || connPrimary.State == 0)
+                connectDBPrimary();
+
+            transaction = connPrimary.BeginTransaction();
+
+            var cmd = connPrimary.CreateCommand();
+            cmd.CommandText = sql;
+            if (parameters != null)
+                cmd.Parameters.AddRange(parameters);
+
+            rowsAffected = cmd.ExecuteNonQuery();
+
+            transaction.Commit();
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex.Message);
+            transaction.Rollback();
+            return -1; // Return -1 to indicate error
+        }
+        finally
+        {
+            connPrimary.Close(); // Close the connection
+        }
+
+        Console.Write("Database Operation Completed Successfully");
+        return rowsAffected;
+    }
+//update end
 
     public List<List<Object[]>> executeSQL(string sq,MySqlParameter[] prms) // this will return the database response the last partameter is to allow selection of connectio id
     {        
