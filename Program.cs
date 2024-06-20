@@ -21,10 +21,10 @@ ConfigureServices(s=>
      s.AddSingleton<heading_details>();
      s.AddSingleton<best_time_to_visit>();
      s.AddSingleton<heading>();
-     s.AddSingleton<destination_card>();
      s.AddSingleton<destination_details>();
      s.AddSingleton<plan_your_trip>();
      s.AddSingleton<plan_your_trip_delete_details>();
+     s.AddSingleton<destination_card>();
 
 s.AddAuthorization();
 s.AddControllers();
@@ -59,10 +59,10 @@ app.UseEndpoints(e=>
            var heading_details=  e.ServiceProvider.GetRequiredService<heading_details>();
            var best_time_to_visit=  e.ServiceProvider.GetRequiredService<best_time_to_visit>();
            var heading=  e.ServiceProvider.GetRequiredService<heading>();
-           var destination_card=  e.ServiceProvider.GetRequiredService<destination_card>();
            var destination_details=  e.ServiceProvider.GetRequiredService<destination_details>();
            var plan_your_trip=  e.ServiceProvider.GetRequiredService<plan_your_trip>();
            var plan_your_trip_delete_details=  e.ServiceProvider.GetRequiredService<plan_your_trip_delete_details>();
+           var destination_card=  e.ServiceProvider.GetRequiredService<destination_card>();
            
            
 
@@ -181,15 +181,6 @@ app.UseEndpoints(e=>
                          await http.Response.WriteAsJsonAsync(await heading.Heading(rData));
 
          });
-         e.MapPost("destination_card",
-         [AllowAnonymous] async (HttpContext http) =>
-         {
-             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
-             requestData rData = JsonSerializer.Deserialize<requestData>(body);
-              if (rData.eventID == "1002") // update
-                         await http.Response.WriteAsJsonAsync(await destination_card.Destination_card(rData));
-
-         });
          e.MapPost("destination_details",
          [AllowAnonymous] async (HttpContext http) =>
          {
@@ -208,6 +199,16 @@ app.UseEndpoints(e=>
                          await http.Response.WriteAsJsonAsync(await destination_form.Destination_form(rData));
 
          });
+         e.MapPost("destination_card",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await destination_card.Destination_card(rData));
+
+         });
+         
          
 
 
