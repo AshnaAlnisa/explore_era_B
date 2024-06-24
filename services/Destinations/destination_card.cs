@@ -15,15 +15,16 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
 
              try
             {
-                var query = @"SELECT * FROM detailsdb.destination_card WHERE id=@id";
+                // var query = @"SELECT * FROM detailsdb.destination_card WHERE id=@id";
+                var query = @"SELECT * FROM detailsdb.destination_card";
                 // Add WHERE clause if filtering by email
                 // query += " WHERE email = @Email";
 
-                MySqlParameter[] myParam = new MySqlParameter[] {
-                    new MySqlParameter("@id",req.addInfo["id"]),
-                };
+                // MySqlParameter[] myParam = new MySqlParameter[] {
+                //     new MySqlParameter("@id",req.addInfo["id"]),
+                // };
 
-                var dbData = ds.executeSQL(query, myParam); // pass myParam if filtering by email
+                var dbData = ds.executeSQL(query, null); // pass myParam if filtering by email
 
                 List<object> itemsList = new List<object>();
                 
