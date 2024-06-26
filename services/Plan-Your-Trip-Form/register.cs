@@ -13,12 +13,6 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
              try
             {
                 var query = @"SELECT id, name, country, emailId, tourDescriptions, travelDates, durationOfTheStay, noOfPerson, contactNo FROM detailsdb.details";
-                // Add WHERE clause if filtering by email
-                // query += " WHERE email = @Email";
-
-                // MySqlParameter[] myParam = new MySqlParameter[] {
-                //     new MySqlParameter("@Email", email)
-                // };
 
                 var dbData = ds.executeSQL(query, null); // pass myParam if filtering by email
 

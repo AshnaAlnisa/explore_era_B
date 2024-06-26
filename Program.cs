@@ -26,6 +26,7 @@ ConfigureServices(s=>
      s.AddSingleton<plan_your_trip_delete_details>();
      s.AddSingleton<destination_card>();
      s.AddSingleton<imageInsert>();
+     s.AddSingleton<dcInsert>();
 
 s.AddAuthorization();
 s.AddControllers();
@@ -65,6 +66,7 @@ app.UseEndpoints(e=>
            var plan_your_trip_delete_details=  e.ServiceProvider.GetRequiredService<plan_your_trip_delete_details>();
            var destination_card=  e.ServiceProvider.GetRequiredService<destination_card>();
            var imageInsert=  e.ServiceProvider.GetRequiredService<imageInsert>();
+           var dcInsert=  e.ServiceProvider.GetRequiredService<dcInsert>();
            
            
 
@@ -217,6 +219,15 @@ app.UseEndpoints(e=>
              requestData rData = JsonSerializer.Deserialize<requestData>(body);
               if (rData.eventID == "1002") // update
                          await http.Response.WriteAsJsonAsync(await imageInsert.ImageInsert(rData));
+
+         });
+         e.MapPost("dcInsert",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await dcInsert.DcInsert(rData));
 
          });
          

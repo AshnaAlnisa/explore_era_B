@@ -13,12 +13,10 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             try
             {
                
-                    // var sq=@"insert into detailsdb.enquiryForm(IMAGE,HEADING,DETAILS,BLOCK1,BLOCK2,VIEW_MORE) values(@IMAGE,@HEADING,@DETAILS,@BLOCK1,@BLOCK2,@VIEW_MORE)";
-                    var sq=@"update detailsdb.destination_card set(IMAGE=@IMAGE,HEADING=@HEADING,DETAILS=@DETAILS,BLOCK1=@BLOCK1,BLOCK2=@BLOCK2,VIEW_MORE=@VIEW_MORE) where id=@id";
+                    var sq=@"insert into detailsdb.destination_card(IMAGE,HEADING,DETAILS,BLOCK1,BLOCK2,VIEW_MORE) values(@IMAGE,@HEADING,@DETAILS,@BLOCK1,@BLOCK2,@VIEW_MORE)";
 
                      MySqlParameter[] insertParams = new MySqlParameter[]
                     {
-                        new MySqlParameter("@id", rData.addInfo["id"]) ,
                         new MySqlParameter("@IMAGE",rData.addInfo["IMAGE"]),
                         new MySqlParameter("@HEADING",rData.addInfo["HEADING"]),
                         new MySqlParameter("@DETAILS",rData.addInfo["DETAILS"]),

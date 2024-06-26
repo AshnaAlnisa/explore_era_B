@@ -12,27 +12,8 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
             responseData resData = new responseData();
             try
             {
-                var query = @"SELECT * FROM detailsdb.details where EMAILID=@EMAILID";
-                MySqlParameter[] myParam = new MySqlParameter[]
-                {
-                new MySqlParameter("@NAME",rData.addInfo["NAME"]),
-                new MySqlParameter("@COUNTRY",rData.addInfo["COUNTRY"]),
-                new MySqlParameter("@EMAILID",rData.addInfo["EMAILID"]),
-                new MySqlParameter("@TOURDESCRIPTIONS",rData.addInfo["TOURDESCRIPTIONS"]),
-                new MySqlParameter("@TRAVELDATES",rData.addInfo["TRAVELDATES"]),
-                new MySqlParameter("@DURATIONOFTHESTAY",rData.addInfo["DURATIONOFTHESTAY"]),
-                new MySqlParameter("@NOOFPERSON",rData.addInfo["NOOFPERSON"]),
-                new MySqlParameter("@CONTACTNO",rData.addInfo["CONTACTNO"]),
-            
-                };
-                var dbData = ds.executeSQL(query, myParam);
-                if (dbData[0].Count() > 0)
-                {
-                    resData.rData["rMessage"] = "Duplicate Credentials";
-                }
-                else
-                {
-                    var sq=@"insert into detailsdb.details(NAME,COUNTRY,EMAILID,TOURDESCRIPTIONS,TRAVELDATES,DURATIONOFTHESTAY,NOOFPERSON,CONTACTNO) values(@NAME,@COUNTRY,@EMAILID,@TOURDESCRIPTIONS,@TRAVELDATES,@DURATIONOFTHESTAY,@NOOFPERSON,@CONTACTNO)";
+               
+                     var sq=@"insert into detailsdb.details(NAME,COUNTRY,EMAILID,TOURDESCRIPTIONS,TRAVELDATES,DURATIONOFTHESTAY,NOOFPERSON,CONTACTNO) values(@NAME,@COUNTRY,@EMAILID,@TOURDESCRIPTIONS,@TRAVELDATES,@DURATIONOFTHESTAY,@NOOFPERSON,@CONTACTNO)";
                      MySqlParameter[] insertParams = new MySqlParameter[]
                     {
                         new MySqlParameter("@NAME",rData.addInfo["NAME"]),
@@ -48,8 +29,6 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
 
                     resData.rData["rMessage"] = "Successful";
                     
-                }
-
             }
             catch (Exception ex)
             {
@@ -57,6 +36,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 throw;
             }
             return resData;
+           
         }
 
     }
