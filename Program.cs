@@ -18,8 +18,10 @@ ConfigureServices(s=>
      s.AddSingleton<signup>();
      s.AddSingleton<myLogin>();
      s.AddSingleton<destination1>();
+     s.AddSingleton<destination1View>();
      s.AddSingleton<heading_details>();
      s.AddSingleton<best_time_to_visit>();
+     s.AddSingleton<best_view>();
      s.AddSingleton<heading>();
      s.AddSingleton<destination_details>();
      s.AddSingleton<plan_your_trip>();
@@ -58,8 +60,10 @@ app.UseEndpoints(e=>
            var signup=  e.ServiceProvider.GetRequiredService<signup>();
            var myLogin=  e.ServiceProvider.GetRequiredService<myLogin>();
            var destination1=  e.ServiceProvider.GetRequiredService<destination1>();
+           var destination1View=  e.ServiceProvider.GetRequiredService<destination1View>();
            var heading_details=  e.ServiceProvider.GetRequiredService<heading_details>();
            var best_time_to_visit=  e.ServiceProvider.GetRequiredService<best_time_to_visit>();
+           var best_view=  e.ServiceProvider.GetRequiredService<best_view>();
            var heading=  e.ServiceProvider.GetRequiredService<heading>();
            var destination_details=  e.ServiceProvider.GetRequiredService<destination_details>();
            var plan_your_trip=  e.ServiceProvider.GetRequiredService<plan_your_trip>();
@@ -158,6 +162,15 @@ app.UseEndpoints(e=>
                          await http.Response.WriteAsJsonAsync(await destination1.Destination1(rData));
 
          });
+         e.MapPost("destination1View",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await destination1View.Destination1View(rData));
+
+         });
          e.MapPost("heading_details",
          [AllowAnonymous] async (HttpContext http) =>
          {
@@ -174,6 +187,15 @@ app.UseEndpoints(e=>
              requestData rData = JsonSerializer.Deserialize<requestData>(body);
               if (rData.eventID == "1002") // update
                          await http.Response.WriteAsJsonAsync(await best_time_to_visit.Best_time_to_visit(rData));
+
+         });
+         e.MapPost("best_view",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await best_view.Best_view(rData));
 
          });
          e.MapPost("heading",
