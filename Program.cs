@@ -27,8 +27,12 @@ ConfigureServices(s=>
      s.AddSingleton<plan_your_trip>();
      s.AddSingleton<plan_your_trip_delete_details>();
      s.AddSingleton<destination_card>();
+     s.AddSingleton<destination_card1>();
      s.AddSingleton<imageInsert>();
      s.AddSingleton<dcInsert>();
+     s.AddSingleton<homeInsert>();
+     s.AddSingleton<homeView>();
+     s.AddSingleton<homeView2>();
 
 s.AddAuthorization();
 s.AddControllers();
@@ -69,8 +73,12 @@ app.UseEndpoints(e=>
            var plan_your_trip=  e.ServiceProvider.GetRequiredService<plan_your_trip>();
            var plan_your_trip_delete_details=  e.ServiceProvider.GetRequiredService<plan_your_trip_delete_details>();
            var destination_card=  e.ServiceProvider.GetRequiredService<destination_card>();
+           var destination_card1=  e.ServiceProvider.GetRequiredService<destination_card1>();
            var imageInsert=  e.ServiceProvider.GetRequiredService<imageInsert>();
            var dcInsert=  e.ServiceProvider.GetRequiredService<dcInsert>();
+           var homeInsert=  e.ServiceProvider.GetRequiredService<homeInsert>();
+           var homeView=  e.ServiceProvider.GetRequiredService<homeView>();
+           var homeView2=  e.ServiceProvider.GetRequiredService<homeView2>();
            
            
 
@@ -234,6 +242,15 @@ app.UseEndpoints(e=>
                          await http.Response.WriteAsJsonAsync(await destination_card.Destination_card(rData));
 
          });
+         e.MapPost("destination_card1",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await destination_card1.Destination_card1(rData));
+
+         });
          e.MapPost("imageInsert",
          [AllowAnonymous] async (HttpContext http) =>
          {
@@ -250,6 +267,33 @@ app.UseEndpoints(e=>
              requestData rData = JsonSerializer.Deserialize<requestData>(body);
               if (rData.eventID == "1002") // update
                          await http.Response.WriteAsJsonAsync(await dcInsert.DcInsert(rData));
+
+         });
+         e.MapPost("homeInsert",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await homeInsert.HomeInsert(rData));
+
+         });
+         e.MapPost("homeView",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await homeView.HomeView(rData));
+
+         });
+         e.MapPost("homeView2",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await homeView2.HomeView2(rData));
 
          });
          
