@@ -33,6 +33,8 @@ ConfigureServices(s=>
      s.AddSingleton<homeInsert>();
      s.AddSingleton<homeView>();
      s.AddSingleton<homeView2>();
+     s.AddSingleton<homeView3>();
+     s.AddSingleton<insertWeekendGateways>();
 
 s.AddAuthorization();
 s.AddControllers();
@@ -79,6 +81,8 @@ app.UseEndpoints(e=>
            var homeInsert=  e.ServiceProvider.GetRequiredService<homeInsert>();
            var homeView=  e.ServiceProvider.GetRequiredService<homeView>();
            var homeView2=  e.ServiceProvider.GetRequiredService<homeView2>();
+           var homeView3=  e.ServiceProvider.GetRequiredService<homeView3>();
+           var insertWeekendGateways=  e.ServiceProvider.GetRequiredService<insertWeekendGateways>();
            
            
 
@@ -294,6 +298,24 @@ app.UseEndpoints(e=>
              requestData rData = JsonSerializer.Deserialize<requestData>(body);
               if (rData.eventID == "1002") // update
                          await http.Response.WriteAsJsonAsync(await homeView2.HomeView2(rData));
+
+         });
+         e.MapPost("homeView3",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await homeView3.HomeView3(rData));
+
+         });
+         e.MapPost("insertWeekendGateways",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await insertWeekendGateways.InsertWeekendGateways(rData));
 
          });
          

@@ -33,12 +33,13 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 {
                     throw new KeyNotFoundException("IMAGE key not found in addInfo.");
                 }
-                var sq = @"insert into detailsdb.home_page(IMAGE,HEADING,DETAILS) values(@IMAGE,@HEADING,@DETAILS)";
+                var sq = @"insert into detailsdb.home_page(IMAGE,HEADING,DETAILS,LINK) values(@IMAGE,@HEADING,@DETAILS,@LINK)";
                 MySqlParameter[] insertParams = new MySqlParameter[]
                {
                         new MySqlParameter("@IMAGE", MySqlDbType.LongText) { Value = base64Image },
                         new MySqlParameter("@HEADING",rData.addInfo["HEADING"]),
                         new MySqlParameter("@DETAILS",rData.addInfo["DETAILS"]),
+                        new MySqlParameter("@LINK",rData.addInfo["LINK"]),
                };
                 var insertResult = ds.executeSQL(sq, insertParams);
 

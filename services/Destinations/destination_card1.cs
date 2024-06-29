@@ -49,7 +49,8 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                             details = rowData[3],
                             block1 = rowData[4],
                             block2 = rowData[5],
-                            view_more = rowData[6]
+                            view_more = rowData[6],
+                            link = rowData[7]
                         };
 
                         itemsList.Add(item);

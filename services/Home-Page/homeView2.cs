@@ -47,6 +47,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                             image = rowData[1],
                             heading = rowData[2],
                             details = rowData[3],
+                            link = rowData[4],
                         };
 
                         itemsList.Add(item);

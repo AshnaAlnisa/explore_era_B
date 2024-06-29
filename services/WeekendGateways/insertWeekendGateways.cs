@@ -1,19 +1,15 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
 namespace COMMON_PROJECT_STRUCTURE_API.services
 {
-    public class imageInsert
+    public class insertWeekendGateways
     {
         dbServices ds = new dbServices();
-        
-        public async Task<responseData> ImageInsert(requestData rData)
+        public async Task<responseData> InsertWeekendGateways(requestData rData)
         {
             responseData resData = new responseData();
-            
             try
             {
                 string base64Image = null;
@@ -21,7 +17,7 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 if (rData.addInfo.ContainsKey("IMAGE"))
                 {
                     var filePath = rData.addInfo["IMAGE"].ToString();
-                    
+
                     // Check if the file exists
                     if (File.Exists(filePath))
                     {
@@ -37,21 +33,14 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
                 {
                     throw new KeyNotFoundException("IMAGE key not found in addInfo.");
                 }
-
+                var sq = @"insert into detailsdb.weekend_gateways(IMAGE,HEADING,DETAILS,LINK) values(@IMAGE,@HEADING,@DETAILS,@LINK)";
                 MySqlParameter[] insertParams = new MySqlParameter[]
-                {
-                    new MySqlParameter("@IMAGE", MySqlDbType.LongText) { Value = base64Image },
-                    new MySqlParameter("@HEADING", rData.addInfo["HEADING"].ToString()),
-                    new MySqlParameter("@DETAILS", rData.addInfo["DETAILS"].ToString()),
-                    new MySqlParameter("@BLOCK1", rData.addInfo["BLOCK1"].ToString()),
-                    new MySqlParameter("@BLOCK2", rData.addInfo["BLOCK2"].ToString()),
-                    new MySqlParameter("@VIEW_MORE", rData.addInfo["VIEW_MORE"].ToString()),
-                    new MySqlParameter("@LINK", rData.addInfo["LINK"].ToString())
-                };
-
-                var sq = @"INSERT INTO detailsdb.destination_card(IMAGE, HEADING, DETAILS, BLOCK1, BLOCK2, VIEW_MORE, LINK) 
-                           VALUES (@IMAGE, @HEADING, @DETAILS, @BLOCK1, @BLOCK2, @VIEW_MORE, @LINK)";
-
+               {
+                        new MySqlParameter("@IMAGE", MySqlDbType.LongText) { Value = base64Image },
+                        new MySqlParameter("@HEADING",rData.addInfo["HEADING"]),
+                        new MySqlParameter("@DETAILS",rData.addInfo["DETAILS"]),
+                        new MySqlParameter("@LINK",rData.addInfo["LINK"]),
+               };
                 var insertResult = ds.executeSQL(sq, insertParams);
 
                 if (insertResult != null && insertResult.Count > 0 && insertResult[0] != null && insertResult[0].Count > 0)
@@ -83,5 +72,6 @@ namespace COMMON_PROJECT_STRUCTURE_API.services
 
             return resData;
         }
+
     }
 }
