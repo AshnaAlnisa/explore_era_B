@@ -5,10 +5,10 @@ using MySql.Data.MySqlClient;
 
 namespace COMMON_PROJECT_STRUCTURE_API.services
 {
-    public class viewWeekendGateways1
+    public class viewWeekendGateways3
     {
         dbServices ds = new dbServices();
-        public async Task<responseData>ViewWeekendGateways1(requestData req)
+        public async Task<responseData>ViewWeekendGateways3(requestData req)
 
  {
             responseData resData = new responseData();

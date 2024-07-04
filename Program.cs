@@ -35,6 +35,12 @@ ConfigureServices(s=>
      s.AddSingleton<homeView2>();
      s.AddSingleton<homeView3>();
      s.AddSingleton<insertWeekendGateways>();
+     s.AddSingleton<viewWeekendGateways1>();
+     s.AddSingleton<viewWeekendGateways2>();
+     s.AddSingleton<viewWeekendGateways3>();
+     s.AddSingleton<generate>();
+     s.AddSingleton<updatepassword>();
+     s.AddSingleton<verify>();
 
 s.AddAuthorization();
 s.AddControllers();
@@ -83,6 +89,12 @@ app.UseEndpoints(e=>
            var homeView2=  e.ServiceProvider.GetRequiredService<homeView2>();
            var homeView3=  e.ServiceProvider.GetRequiredService<homeView3>();
            var insertWeekendGateways=  e.ServiceProvider.GetRequiredService<insertWeekendGateways>();
+           var viewWeekendGateways1=  e.ServiceProvider.GetRequiredService<viewWeekendGateways1>();
+           var viewWeekendGateways2=  e.ServiceProvider.GetRequiredService<viewWeekendGateways2>();
+           var viewWeekendGateways3=  e.ServiceProvider.GetRequiredService<viewWeekendGateways3>();
+           var generate=  e.ServiceProvider.GetRequiredService<generate>();
+           var updatepassword=  e.ServiceProvider.GetRequiredService<updatepassword>();
+           var verify=  e.ServiceProvider.GetRequiredService<verify>();
            
            
 
@@ -316,6 +328,60 @@ app.UseEndpoints(e=>
              requestData rData = JsonSerializer.Deserialize<requestData>(body);
               if (rData.eventID == "1002") // update
                          await http.Response.WriteAsJsonAsync(await insertWeekendGateways.InsertWeekendGateways(rData));
+
+         });
+         e.MapPost("viewWeekendGateways1",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await viewWeekendGateways1.ViewWeekendGateways1(rData));
+
+         });
+         e.MapPost("viewWeekendGateways2",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await viewWeekendGateways2.ViewWeekendGateways2(rData));
+
+         });
+         e.MapPost("viewWeekendGateways3",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await viewWeekendGateways3.ViewWeekendGateways3(rData));
+
+         });
+         e.MapPost("generate",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await generate.Generate(rData));
+
+         });
+         e.MapPost("updatepassword",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await updatepassword.Updatepassword(rData));
+
+         });
+         e.MapPost("verify",
+         [AllowAnonymous] async (HttpContext http) =>
+         {
+             var body = await new StreamReader(http.Request.Body).ReadToEndAsync();
+             requestData rData = JsonSerializer.Deserialize<requestData>(body);
+              if (rData.eventID == "1002") // update
+                         await http.Response.WriteAsJsonAsync(await verify.Verifyotp(rData));
 
          });
          
